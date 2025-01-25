@@ -75,6 +75,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
                     hintStyle: const TextStyle(
                       color: Colors.white54,
                     ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
                     suffixIcon: widget.obscureText
                         ? IconButton(
                       icon: Icon(

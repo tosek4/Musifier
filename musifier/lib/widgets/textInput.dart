@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomInputField extends StatelessWidget {
+class CustomInputField extends StatefulWidget {
   final String hintText;
   final IconData icon;
   final bool obscureText;
@@ -17,14 +17,27 @@ class CustomInputField extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _CustomInputFieldState createState() => _CustomInputFieldState();
+}
+
+class _CustomInputFieldState extends State<CustomInputField> {
+  late bool _obscureText;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.obscureText;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          labelText,
+          widget.labelText,
           style: const TextStyle(
-            color: Colors.white,
+            color: Colors.white54,
             fontSize: 14,
             fontWeight: FontWeight.w600,
             fontFamily: 'Nunito',
@@ -41,15 +54,15 @@ class CustomInputField extends StatelessWidget {
           child: Row(
             children: [
               Icon(
-                icon,
+                widget.icon,
                 color: Colors.white,
                 size: 24,
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: TextField(
-                  controller: controller,
-                  obscureText: obscureText,
+                  controller: widget.controller,
+                  obscureText: _obscureText,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -58,10 +71,25 @@ class CustomInputField extends StatelessWidget {
                   ),
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: hintText,
+                    hintText: widget.hintText,
                     hintStyle: const TextStyle(
                       color: Colors.white54,
                     ),
+                    suffixIcon: widget.obscureText
+                        ? IconButton(
+                      icon: Icon(
+                        _obscureText
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: Color(0xFF6156E2),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                    )
+                        : null,
                   ),
                   cursorColor: Colors.white,
                 ),

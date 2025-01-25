@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
-
 import '../widgets/button.dart';
 import '../widgets/textInput.dart';
-import 'loginPage.dart';
+import 'signupPage.dart';
+import 'forgotPasswordPage.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
-  final TextEditingController _nameController = TextEditingController();
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  void _handleSignUp() {
-    print('Name: ${_nameController.text}');
+  void _handleSignIn() {
+
     print('Email: ${_emailController.text}');
     print('Password: ${_passwordController.text}');
   }
@@ -43,7 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
               children: [
                 const SizedBox(height: 40),
                 const Text(
-                  'Welcome to Musifier!',
+                  'Welcome Back to Musifier!',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 32,
@@ -52,13 +50,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(height: 40),
-                CustomInputField(
-                  controller: _nameController,
-                  hintText: 'Enter your name',
-                  icon: Icons.person,
-                  labelText: 'Full name',
-                ),
-                const SizedBox(height: 16),
                 CustomInputField(
                   controller: _emailController,
                   hintText: 'Enter your email',
@@ -73,23 +64,45 @@ class _SignUpPageState extends State<SignUpPage> {
                   obscureText: true,
                   labelText: 'Password',
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
+                        );
+                      },
+                      child: const Text(
+                        'Forgot Password?',
+                        style: TextStyle(
+                          color: Colors.white54,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Nunito',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 50),
                 GestureDetector(
-                  onTap: _handleSignUp,
+                 onTap: _handleSignIn,
                   child:  CustomButton(
-                    text: 'Sign Up',
-                    onPressed: _handleSignUp,
+                    text: 'Log In',
+                    onPressed: _handleSignIn,
                   ),
                 ),
-                const SizedBox(height: 80),
+                const SizedBox(height: 90),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Already have an account? ',
+                      'Don\'t have an account? ',
                       style: TextStyle(
                         color: Colors.white,
-                        fontWeight: FontWeight.bold,
                         fontSize: 20,
                         fontFamily: 'Nunito',
                       ),
@@ -98,11 +111,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                          MaterialPageRoute(builder: (context) => const SignUpPage()),
                         );
                       },
                       child: const Text(
-                        'Log in',
+                        'Sign Up',
                         style: TextStyle(
                           color: Color(0xFF6156E2),
                           fontSize: 20,

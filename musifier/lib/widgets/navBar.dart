@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:musifier/pages/newReleasesPage.dart';
+import 'package:musifier/pages/profilePage.dart';
 
 class NavigationWidget extends StatelessWidget {
   final int currentIndex;
@@ -32,24 +34,40 @@ class NavigationWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildNavItem(
+            context: context,
             index: 0,
             icon: Icons.home_outlined,
             isSelected: currentIndex == 0,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MusifierScreen()),
+              );
+            },
           ),
           _buildNavItem(
+            context: context,
             index: 1,
             icon: Icons.music_note_outlined,
             isSelected: currentIndex == 1,
           ),
           _buildNavItem(
+            context: context,
             index: 2,
             icon: Icons.search,
             isSelected: currentIndex == 2,
           ),
           _buildNavItem(
+            context: context,
             index: 3,
             icon: Icons.person_outline,
             isSelected: currentIndex == 3,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfilePage()),
+              );
+            },
           ),
         ],
       ),
@@ -57,22 +75,27 @@ class NavigationWidget extends StatelessWidget {
   }
 
   Widget _buildNavItem({
+    required BuildContext context,
     required int index,
     required IconData icon,
     required bool isSelected,
+    VoidCallback? onTap,
   }) {
     return Expanded(
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: isSelected ? const Color(0xFF6156E2) : Colors.white54,
-              size: 34,
-            ),
-            const SizedBox(height: 4),
-          ],
+      child: GestureDetector(
+        onTap: onTap,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                color: isSelected ? const Color(0xFF6156E2) : Colors.white54,
+                size: 34,
+              ),
+              const SizedBox(height: 4),
+            ],
+          ),
         ),
       ),
     );

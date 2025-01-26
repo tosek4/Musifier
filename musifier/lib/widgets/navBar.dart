@@ -33,12 +33,12 @@ class NavigationWidget extends StatelessWidget {
         children: [
           _buildNavItem(
             index: 0,
-            icon: Icons.home,
+            icon: Icons.home_outlined,
             isSelected: currentIndex == 0,
           ),
           _buildNavItem(
             index: 1,
-            icon: Icons.music_note,
+            icon: Icons.music_note_outlined,
             isSelected: currentIndex == 1,
           ),
           _buildNavItem(
@@ -48,7 +48,7 @@ class NavigationWidget extends StatelessWidget {
           ),
           _buildNavItem(
             index: 3,
-            icon: Icons.person,
+            icon: Icons.person_outline,
             isSelected: currentIndex == 3,
           ),
         ],

@@ -6,6 +6,7 @@ class CustomInputField extends StatefulWidget {
   final bool obscureText;
   final TextEditingController controller;
   final String labelText;
+  final Widget? trailing;
 
   const CustomInputField({
     Key? key,
@@ -14,6 +15,7 @@ class CustomInputField extends StatefulWidget {
     this.obscureText = false,
     required this.controller,
     required this.labelText,
+    this.trailing,
   }) : super(key: key);
 
   @override
@@ -34,14 +36,23 @@ class _CustomInputFieldState extends State<CustomInputField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.labelText,
-          style: const TextStyle(
-            color: Colors.white54,
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'Nunito-Regular',
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              widget.labelText,
+              style: const TextStyle(
+                color: Colors.white54,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Nunito-Regular',
+              ),
+            ),
+            if (widget.trailing != null) ...[
+              const SizedBox(width: 5),
+              widget.trailing!,
+            ],
+          ],
         ),
         const SizedBox(height: 8),
         Container(
@@ -80,9 +91,9 @@ class _CustomInputFieldState extends State<CustomInputField> {
                         ? IconButton(
                       icon: Icon(
                         _obscureText
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        color: Color(0xFF6156E2),
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        color: const Color(0xFF6156E2),
                       ),
                       onPressed: () {
                         setState(() {

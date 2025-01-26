@@ -53,14 +53,14 @@ class _LoginPageState extends State<LoginPage> {
                 CustomInputField(
                   controller: _emailController,
                   hintText: 'Enter your email',
-                  icon: Icons.email,
+                  icon: Icons.email_outlined,
                   labelText: 'Email address',
                 ),
                 const SizedBox(height: 16),
                 CustomInputField(
                   controller: _passwordController,
                   hintText: 'Enter your password',
-                  icon: Icons.lock,
+                  icon: Icons.lock_outline,
                   obscureText: true,
                   labelText: 'Password',
                 ),

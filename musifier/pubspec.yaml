@@ -52,6 +52,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  assets:
+
+    - assets/da.png
   fonts:
     - family: Nunito
       fonts:

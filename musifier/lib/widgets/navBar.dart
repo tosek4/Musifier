@@ -69,7 +69,7 @@ class NavigationWidget extends StatelessWidget {
             Icon(
               icon,
               color: isSelected ? const Color(0xFF6156E2) : Colors.white54,
-              size: 30,
+              size: 34,
             ),
             const SizedBox(height: 4),
           ],

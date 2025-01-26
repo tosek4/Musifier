@@ -54,7 +54,7 @@ class MusicCard extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'Nunito',
+                    fontFamily: 'Nunito-Regular',
                     letterSpacing: 0.5,
                     shadows: [
                       Shadow(
@@ -72,7 +72,7 @@ class MusicCard extends StatelessWidget {
                     color: Colors.white70,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    fontFamily: 'Nunito',
+                    fontFamily: 'Nunito-Regular',
                     letterSpacing: 0.5,
                     shadows: [
                       Shadow(
@@ -90,7 +90,7 @@ class MusicCard extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
-                    fontFamily: 'Nunito',
+                    fontFamily: 'Nunito-Regular',
                     letterSpacing: 0.5,
                     shadows: [
                       Shadow(

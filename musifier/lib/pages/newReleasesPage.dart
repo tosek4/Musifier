@@ -18,12 +18,12 @@ class Song {
   });
 }
 
-class MusicifierScreen extends StatefulWidget {
+class MusifierScreen extends StatefulWidget {
   @override
-  _MusicifierScreenState createState() => _MusicifierScreenState();
+  _MusifierScreenState createState() => _MusifierScreenState();
 }
 
-class _MusicifierScreenState extends State<MusicifierScreen> {
+class _MusifierScreenState extends State<MusifierScreen> {
   int _currentIndex = 0;
 
   // Mock list of songs for "New Releases"
@@ -95,7 +95,7 @@ class _MusicifierScreenState extends State<MusicifierScreen> {
                     color: Colors.white,
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'Nunito',
+                    fontFamily: 'Nunito-Regular',
                     letterSpacing: 1.0,
                   ),
                 ),
@@ -107,7 +107,7 @@ class _MusicifierScreenState extends State<MusicifierScreen> {
                   color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'Nunito',
+                  fontFamily: 'Nunito-Regular',
                   letterSpacing: 1.0,
                 ),
               ),
@@ -133,7 +133,7 @@ class _MusicifierScreenState extends State<MusicifierScreen> {
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'Nunito',
+                  fontFamily: 'Nunito-Regular',
                   letterSpacing: 1.0,
                 ),
               ),

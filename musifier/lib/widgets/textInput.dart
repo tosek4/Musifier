@@ -40,7 +40,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
             color: Colors.white54,
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            fontFamily: 'Nunito',
+            fontFamily: 'Nunito-Regular',
           ),
         ),
         const SizedBox(height: 8),
@@ -67,7 +67,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    fontFamily: 'Nunito',
+                    fontFamily: 'Nunito-Regular',
                   ),
                   decoration: InputDecoration(
                     border: InputBorder.none,

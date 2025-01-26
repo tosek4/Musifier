@@ -43,7 +43,7 @@ class ContentBox extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'Nunito',
+                    fontFamily: 'Nunito-Regular',
                     letterSpacing: 1.0,
                   ),
                 ),

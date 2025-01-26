@@ -65,7 +65,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     color: Colors.white,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'Nunito',
+                    fontFamily: 'Nunito-Regular',
                   ),
                 ),
                 const SizedBox(height: 60),
@@ -92,7 +92,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     style: const TextStyle(
                       color: Colors.red,
                       fontSize: 14,
-                      fontFamily: 'Nunito',
+                      fontFamily: 'Nunito-Regular',
                     ),
                   ),
                 const SizedBox(height: 50),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:musifier/pages/profilePage.dart';
+import 'package:musifier/pages/newReleasesPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,13 +11,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, // Hides the debug banner
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        brightness: Brightness.dark, // Use dark mode for consistency
+        brightness: Brightness.dark,
         primarySwatch: Colors.deepPurple,
         fontFamily: 'Nunito-Regular',
       ),
-      home: ProfilePage(), // Calls the screen you sent above
+      home: MusifierScreen(),
     );
   }
 }

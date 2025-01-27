@@ -88,7 +88,7 @@ class _MusifierScreenState extends State<MusifierScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
+              const Center(
                 child: const Text(
                   'MUSIFIER',
                   style: TextStyle(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:io';
 
 import '../widgets/button.dart';
 import '../widgets/navBar.dart';
@@ -15,6 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+  File? _imageFile;
 
   final int _currentIndex = 3;
 
@@ -24,6 +27,22 @@ class _ProfilePageState extends State<ProfilePage> {
     _emailController.dispose();
     _addressController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+      );
+
+      if (result != null) {
+        setState(() {
+          _imageFile = File(result.files.single.path!);
+        });
+      }
+    } catch (e) {
+      print('Error picking image: $e');
+    }
   }
 
   void _handleSave() {
@@ -65,20 +84,20 @@ class _ProfilePageState extends State<ProfilePage> {
                 Center(
                   child: Stack(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 60,
-                        backgroundImage: AssetImage('assets/da.png'),
+                        backgroundImage: _imageFile != null
+                            ? FileImage(_imageFile!) as ImageProvider
+                            : const AssetImage('assets/avatar.jpg'),
                       ),
                       Positioned(
                         bottom: 0,
                         right: 0,
                         child: GestureDetector(
-                          onTap: () {
-                            //TODO: Add functionality for changing the picture
-                          },
+                          onTap: _pickImage,
                           child: Container(
                             decoration: const BoxDecoration(
-                              color: const Color(0xFF6156E2),
+                              color: Color(0xFF6156E2),
                               shape: BoxShape.circle,
                             ),
                             padding: const EdgeInsets.all(8),
@@ -90,13 +109,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Center(
-                  child: Text(
-                    'Change Picture',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontFamily: 'Nunito-Regular',
+                Center(
+                  child: GestureDetector(
+                    onTap: _pickImage,
+                    child: const Text(
+                      'Change Picture',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontFamily: 'Nunito-Regular',
+                      ),
                     ),
                   ),
                 ),

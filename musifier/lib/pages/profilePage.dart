@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:musifier/auth/auth.dart';
+import 'package:musifier/pages/loginPage.dart';
+import 'package:musifier/widgets/signOutButton.dart';
 import 'dart:io';
-
 import '../widgets/button.dart';
 import '../widgets/navBar.dart';
 import '../widgets/textInput.dart';
@@ -18,8 +20,17 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   File? _imageFile;
-
+  final user = Auth().currentUser;
   final int _currentIndex = 3;
+
+  @override
+  void initState() {
+    super.initState();
+    if (user != null) {
+      _nameController.text = user?.displayName ?? '';
+      _emailController.text = user?.email ?? '';
+    }
+  }
 
   @override
   void dispose() {
@@ -28,6 +39,21 @@ class _ProfilePageState extends State<ProfilePage> {
     _addressController.dispose();
     super.dispose();
   }
+
+  Future<void> _signOut() async {
+    try {
+      await Auth().signOut();
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
+      }
+    } catch (e) {
+      print('Error signing out: $e');
+    }
+  }
+
 
   Future<void> _pickImage() async {
     try {
@@ -45,10 +71,21 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  void _handleSave() {
-    print('Name: ${_nameController.text}');
-    print('Email: ${_emailController.text}');
-    print('Address: ${_addressController.text}');
+  void _handleSave() async {
+    if (user != null) {
+      try {
+        await user!.updateProfile(displayName: _nameController.text);
+        await user!.reload();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Profile updated successfully!")),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Failed to update profile: $e")),
+        );
+      }
+    }
   }
 
   @override
@@ -63,12 +100,18 @@ class _ProfilePageState extends State<ProfilePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 16),
-                IconButton(
-                  padding: const EdgeInsets.only(right: 24),
-                  icon: const Icon(Icons.arrow_back, color: Colors.white, size: 30),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back,
+                          color: Colors.white, size: 30),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    SignOutButton(onPressed: _signOut)
+                  ],
                 ),
                 const SizedBox(height: 8),
                 const Text(
@@ -101,7 +144,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               shape: BoxShape.circle,
                             ),
                             padding: const EdgeInsets.all(8),
-                            child: const Icon(Icons.camera_alt, color: Colors.white, size: 20),
+                            child: const Icon(Icons.camera_alt,
+                                color: Colors.white, size: 20),
                           ),
                         ),
                       ),
@@ -128,7 +172,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   hintText: 'Enter your name',
                   labelText: 'Full name',
                   icon: Icons.person_outlined,
-                  trailing: const Icon(Icons.edit, color: Colors.white54, size: 16,),
+                  trailing: const Icon(
+                    Icons.edit,
+                    color: Colors.white54,
+                    size: 16,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 CustomInputField(
@@ -136,7 +184,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   hintText: 'Enter your email',
                   labelText: 'Email address',
                   icon: Icons.email_outlined,
-                  trailing: const Icon(Icons.edit, color: Colors.white54, size: 16,),
+                  trailing: const Icon(
+                    Icons.edit,
+                    color: Colors.white54,
+                    size: 16,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 CustomInputField(
@@ -144,7 +196,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   hintText: 'Add or insert your address',
                   labelText: 'Address',
                   icon: Icons.location_pin,
-                  trailing: const Icon(Icons.edit, color: Colors.white54, size: 16,),
+                  trailing: const Icon(
+                    Icons.edit,
+                    color: Colors.white54,
+                    size: 16,
+                  ),
                 ),
                 const SizedBox(height: 40),
                 GestureDetector(

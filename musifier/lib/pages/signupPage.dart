@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:musifier/auth/auth.dart';
+import 'package:musifier/pages/homePage.dart';
+import 'package:musifier/widgets/errorMessage.dart';
 import '../widgets/button.dart';
 import '../widgets/textInput.dart';
 import 'loginPage.dart';
@@ -15,6 +18,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String? errorMessage = '';
 
   @override
   void dispose() {
@@ -24,10 +28,23 @@ class _SignUpPageState extends State<SignUpPage> {
     super.dispose();
   }
 
-  void _handleSignUp() {
-    print('Name: ${_nameController.text}');
-    print('Email: ${_emailController.text}');
-    print('Password: ${_passwordController.text}');
+  Future<void> createUserWithEmailAndPassword(BuildContext context) async {
+    try {
+      await Auth().createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
   }
 
   @override
@@ -74,14 +91,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   labelText: 'Password',
                 ),
                 const SizedBox(height: 40),
-                GestureDetector(
-                  onTap: _handleSignUp,
-                  child:  CustomButton(
+                CustomButton(
                     text: 'Sign Up',
-                    onPressed: _handleSignUp,
-                  ),
-                ),
+                    onPressed: () async {
+                      createUserWithEmailAndPassword(context);
+                    }),
                 const SizedBox(height: 80),
+                ErrorMessage(message: errorMessage),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -98,7 +114,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
                         );
                       },
                       child: const Text(

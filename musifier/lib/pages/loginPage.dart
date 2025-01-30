@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:musifier/auth/auth.dart';
+import 'package:musifier/pages/homePage.dart';
+import 'package:musifier/widgets/errorMessage.dart';
 import '../widgets/button.dart';
 import '../widgets/textInput.dart';
 import 'signupPage.dart';
@@ -14,6 +18,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String? errorMessage = '';
 
   @override
   void dispose() {
@@ -22,10 +27,23 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void _handleSignIn() {
-
-    print('Email: ${_emailController.text}');
-    print('Password: ${_passwordController.text}');
+  Future<void> signInWithEmailAndPassword(BuildContext context) async {
+    try {
+      await Auth().signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
   }
 
   @override
@@ -72,7 +90,8 @@ class _LoginPageState extends State<LoginPage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const ForgotPasswordPage()),
                         );
                       },
                       child: const Text(
@@ -87,14 +106,13 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
+                ErrorMessage(message: errorMessage),
                 const SizedBox(height: 50),
-                GestureDetector(
-                 onTap: _handleSignIn,
-                  child:  CustomButton(
+                CustomButton(
                     text: 'Log In',
-                    onPressed: _handleSignIn,
-                  ),
-                ),
+                    onPressed: () async {
+                      await signInWithEmailAndPassword(context);
+                    }),
                 const SizedBox(height: 90),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -111,7 +129,8 @@ class _LoginPageState extends State<LoginPage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SignUpPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const SignUpPage()),
                         );
                       },
                       child: const Text(

@@ -13,8 +13,8 @@ class ContentBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 116,
-      height: 120,
+      height: 150,
+      width: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -22,17 +22,17 @@ class ContentBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 116,
-            height: 81,
+            width: 160,
+            height: 110,
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(10),bottom: Radius.circular(10)),
+              borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(10), bottom: Radius.circular(10)),
               image: DecorationImage(
                 image: image,
                 fit: BoxFit.cover,
               ),
             ),
           ),
-
           if (text != null)
             Center(
               child: Padding(

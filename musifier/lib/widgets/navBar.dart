@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:musifier/pages/newReleasesPage.dart';
+import 'package:musifier/pages/homePage.dart';
 import 'package:musifier/pages/profilePage.dart';
 
 class NavigationWidget extends StatelessWidget {
@@ -41,7 +41,7 @@ class NavigationWidget extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MusifierScreen()),
+                MaterialPageRoute(builder: (context) => HomePage()),
               );
             },
           ),

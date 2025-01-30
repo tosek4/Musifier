@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:musifier/pages/newReleasesPage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:musifier/widgets/widget_tree.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         fontFamily: 'Nunito-Regular',
       ),
-      home: MusifierScreen(),
+      home: const WidgetTree(),
     );
   }
 }
+// test1@dev.com
+// test2@dev.com
+// tosok@dev.com
+// Test123.

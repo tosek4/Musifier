@@ -1,8 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:musifier/auth/auth.dart';
+import 'package:musifier/widgets/navBar.dart';
 import '../widgets/boxSong.dart';
 import '../widgets/listSong.dart';
-import '../widgets/navbar.dart';
-
 
 class Song {
   final String title;
@@ -18,13 +19,11 @@ class Song {
   });
 }
 
-class MusifierScreen extends StatefulWidget {
-  @override
-  _MusifierScreenState createState() => _MusifierScreenState();
-}
+class HomePage extends StatelessWidget {
+  HomePage({Key? key}) : super(key: key);
 
-class _MusifierScreenState extends State<MusifierScreen> {
-  int _currentIndex = 0;
+  final User? user = Auth().currentUser;
+  final int _currentIndex = 0;
 
   // Mock list of songs for "New Releases"
   // TODO: Fetch from backend
@@ -81,6 +80,7 @@ class _MusifierScreenState extends State<MusifierScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+   
       backgroundColor: const Color(0xFF1B1B37),
       body: SafeArea(
         child: Padding(

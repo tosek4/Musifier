@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "953190133325",
+    "project_id": "musifier-69062",
+    "storage_bucket": "musifier-69062.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953190133325:android:3159aee89ff35b831d7604",
+        "android_client_info": {
+          "package_name": "com.example.musifier"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZBvv2LTTOkdgOEjJDU3LhAkhk83Lr7uc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

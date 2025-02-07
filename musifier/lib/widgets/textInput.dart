@@ -7,6 +7,7 @@ class CustomInputField extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
   final Widget? trailing;
+  final bool readOnly;
 
   const CustomInputField({
     Key? key,
@@ -16,6 +17,7 @@ class CustomInputField extends StatefulWidget {
     required this.controller,
     required this.labelText,
     this.trailing,
+    this.readOnly = false,
   }) : super(key: key);
 
   @override
@@ -74,6 +76,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
                 child: TextField(
                   controller: widget.controller,
                   obscureText: _obscureText,
+                  readOnly: widget.readOnly,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -89,18 +92,18 @@ class _CustomInputFieldState extends State<CustomInputField> {
                     contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
                     suffixIcon: widget.obscureText
                         ? IconButton(
-                      icon: Icon(
-                        _obscureText
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                        color: const Color(0xFF6156E2),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
-                      },
-                    )
+                            icon: Icon(
+                              _obscureText
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
+                              color: const Color(0xFF6156E2),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscureText = !_obscureText;
+                              });
+                            },
+                          )
                         : null,
                   ),
                   cursorColor: Colors.white,

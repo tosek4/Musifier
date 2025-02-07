@@ -24,7 +24,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-// test1@dev.com
-// test2@dev.com
-// tosok@dev.com
-// Test123.

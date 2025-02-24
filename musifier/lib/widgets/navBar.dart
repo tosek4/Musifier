@@ -13,7 +13,7 @@ class NavigationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
+      width: 370,
       height: 85,
       decoration: BoxDecoration(
         color: const Color(0xFF1B1B37),

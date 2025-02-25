@@ -48,6 +48,10 @@ dependencies:
   firebase_core: ^3.10.1
   image_picker: ^1.1.2
   firebase_storage: ^12.4.1
+  just_audio: ^0.9.46
+  just_audio_background: ^0.0.1-beta.15
+  audio_service: ^0.18.12
+  just_audio_windows: ^0.2.2
 
 dev_dependencies:
   flutter_test:

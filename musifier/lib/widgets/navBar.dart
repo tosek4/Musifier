@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:musifier/pages/MusicPlayerPage.dart';
 import 'package:musifier/pages/homePage.dart';
 import 'package:musifier/pages/profilePage.dart';
 
@@ -50,6 +51,12 @@ class NavigationWidget extends StatelessWidget {
             index: 1,
             icon: Icons.music_note_outlined,
             isSelected: currentIndex == 1,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MusicPlayerPage()),
+              );
+            },
           ),
           _buildNavItem(
             context: context,

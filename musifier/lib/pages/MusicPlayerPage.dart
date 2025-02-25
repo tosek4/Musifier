@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:musifier/providers/musicPlayerProvider.dart';
 import 'package:musifier/widgets/navBar.dart';
 import 'package:musifier/pages/homePage.dart';
 import 'package:musifier/pages/profilePage.dart';
@@ -17,7 +18,6 @@ class MusicPlayerPage extends StatefulWidget {
 
 class _MusicPlayerPageState extends State<MusicPlayerPage> {
   double _currentPosition = 50;
-  bool isPlaying = false;
   final String currentTime = "1:25";
   final String duration = "3:15";
 
@@ -34,6 +34,8 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
 
   @override
   Widget build(BuildContext context) {
+    final musicPlayerProvider = MusicPlayerProvider();
+
     return GestureDetector(
       onVerticalDragUpdate: (details) {
         if (details.primaryDelta! > 10) {
@@ -57,26 +59,28 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
             ),
             SizedBox(height: 45),
 
+
             Container(
-              height: 319,
-              width: 319,
+              height: 250,
+              width: 250,
               decoration: BoxDecoration(
                 color: Colors.grey,
                 borderRadius: BorderRadius.circular(36), // Add your desired radius here
               ),
-              child: Center(
+              child: const Center(
                 child: Text(
                   "Album Cover",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
-            SizedBox(height: 30),
-            Text(
+            const SizedBox(height: 30),
+
+            const Text(
               "Starboy",
               style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            Text(
+            const Text(
               "The Weeknd",
               style: TextStyle(color: Colors.white54, fontSize: 18),
             ),
@@ -112,9 +116,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
               PlayPauseButton(
                 size: 80.0,
                 onPressed: () {
-                  setState(() {
-                    isPlaying = !isPlaying;
-                  });
+                  musicPlayerProvider.togglePlayPause();
                   // Add your playback logic here
                 },
               ),

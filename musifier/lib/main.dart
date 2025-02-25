@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:musifier/pages/MusicPlayerPage.dart';
 import 'package:musifier/widgets/widget_tree.dart';
 
 Future<void> main() async {
@@ -24,3 +25,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+

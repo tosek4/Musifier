@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:musifier/models/category.dart';
 import 'package:musifier/models/playList.dart';
+import 'package:musifier/pages/MusicPlayerPage.dart';
+import 'package:musifier/providers/musicPlayerProvider.dart';
 import 'package:musifier/service/playList_service.dart';
 
 class PlaylistPage extends StatefulWidget {
@@ -23,6 +25,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
 
   @override
   Widget build(BuildContext context) {
+    final musicPlayerProvider = MusicPlayerProvider();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Playlist'),
@@ -67,19 +71,24 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     SizedBox(height: 16),
                     playlist.tracksList!.isNotEmpty
                         ? SizedBox(
-                            height: 400, 
+                            height: 400,
                             child: ListView.builder(
                               itemCount: playlist.tracksList!.length,
                               itemBuilder: (context, index) {
                                 final track = playlist.tracksList![index];
-                                return ListTile(
+                                return ElevatedButton(onPressed: () async {
+                                  await musicPlayerProvider.setAudio(track.id);
+                                  musicPlayerProvider.play();
+
+                                  Navigator.push(context,  MaterialPageRoute(builder: (context) => MusicPlayerPage()));
+                                }, child: ListTile(
                                   leading: Image.network(track.image,
                                       width: 50, height: 50, fit: BoxFit.cover),
                                   title: Text(track.name),
                                   subtitle: Text(track.artists
                                       .map((artist) => artist.name)
                                       .join(', ')),
-                                );
+                                ));
                               },
                             ),
                           )

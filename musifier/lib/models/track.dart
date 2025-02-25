@@ -5,12 +5,14 @@ class Track {
   final String externalId;
   final String image;
   final List<Artist> artists;
+  final int id;
 
   Track({
     required this.name,
     required this.externalId,
     required this.image,
     required this.artists,
+    required this.id,
   });
 
   factory Track.fromJson(Map<String, dynamic> json) {
@@ -24,11 +26,12 @@ class Track {
       externalId: json['externalId'],
       image: json['image'],
       artists: artistsList,
+      id: json['id'],
     );
   }
 
   @override
   String toString() {
-    return 'Track(name: $name, externalId: $externalId, artists: ${artists.map((a) => a.name).join(", ")})';
+    return 'Track(name: $name, externalId: $externalId, artists: ${artists.map((a) => a.name).join(", ")}, id: $id)';
   }
 }

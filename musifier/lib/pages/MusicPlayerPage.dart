@@ -3,15 +3,16 @@ import 'package:musifier/providers/musicPlayerProvider.dart';
 import 'package:musifier/widgets/navBar.dart';
 import 'package:musifier/pages/homePage.dart';
 import 'package:musifier/pages/profilePage.dart';
-
 import '../models/PlayPauseButton.dart';
-import '../widgets/navBar.dart';
+import '../models/song.dart';
 
-
-//todo slika,da se menvit vremeto do kaj e i kolku e dolga pesnata, valda navigacijata dobro rabotat
-
+//todo da se menvit vremeto do kaj e i kolku e dolga pesnata, valda navigacijata dobro rabotat
 
 class MusicPlayerPage extends StatefulWidget {
+  final Song? song;
+  final int? songId;
+
+  MusicPlayerPage({this.song, required this.songId});
   @override
   _MusicPlayerPageState createState() => _MusicPlayerPageState();
 }
@@ -24,10 +25,12 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
   void _onNavItemTapped(int index) {
     switch (index) {
       case 0:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
         break;
       case 3:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ProfilePage()));
         break;
     }
   }
@@ -47,7 +50,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 65),
+            SizedBox(height: 20),
             Align(
               alignment: Alignment.topLeft,
               child: IconButton(
@@ -57,32 +60,24 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                 },
               ),
             ),
-            SizedBox(height: 45),
-
-
-            Container(
-              height: 250,
-              width: 250,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(36), // Add your desired radius here
-              ),
-              child: const Center(
-                child: Text(
-                  "Album Cover",
-                  style: TextStyle(color: Colors.white),
-                ),
+            SizedBox(
+              height: 300,
+              child: Image.network(
+                widget.song!.image,
+                fit: BoxFit.contain, // Ensures the image fits properly
               ),
             ),
-            const SizedBox(height: 30),
-
-            const Text(
-              "Starboy",
-              style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+            const SizedBox(height: 10),
+            Text(
+              "${widget.song!.name}",
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold),
             ),
-            const Text(
-              "The Weeknd",
-              style: TextStyle(color: Colors.white54, fontSize: 18),
+            Text(
+              "${widget.song!.artists}",
+              style: const TextStyle(color: Colors.white54, fontSize: 18),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -104,28 +99,27 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                 });
               },
             ),
-            SizedBox(height: 40),
-
+            SizedBox(height: 10),
             Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.shuffle, color: Colors.white54, size: 40),
-              SizedBox(width: 30),
-              Icon(Icons.skip_previous, color: Colors.white, size: 40),
-              SizedBox(width: 30),
-              PlayPauseButton(
-                size: 80.0,
-                onPressed: () {
-                  musicPlayerProvider.togglePlayPause();
-                  // Add your playback logic here
-                },
-              ),
-              SizedBox(width: 30),
-              Icon(Icons.skip_next, color: Colors.white, size: 40),
-              SizedBox(width: 30),
-              Icon(Icons.repeat, color: Colors.white, size: 40),
-            ],
-          ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.shuffle, color: Colors.white54, size: 40),
+                SizedBox(width: 30),
+                Icon(Icons.skip_previous, color: Colors.white, size: 40),
+                SizedBox(width: 30),
+                PlayPauseButton(
+                  size: 80.0,
+                  onPressed: () {
+                    musicPlayerProvider.togglePlayPause();
+                    // Add your playback logic here
+                  },
+                ),
+                SizedBox(width: 30),
+                Icon(Icons.skip_next, color: Colors.white, size: 40),
+                SizedBox(width: 30),
+                Icon(Icons.repeat, color: Colors.white, size: 40),
+              ],
+            ),
             Spacer(),
             GestureDetector(
               onTap: () => _onNavItemTapped(0),

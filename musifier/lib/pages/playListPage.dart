@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:musifier/models/category.dart';
 import 'package:musifier/models/playList.dart';
+import 'package:musifier/models/song.dart';
 import 'package:musifier/pages/MusicPlayerPage.dart';
 import 'package:musifier/providers/musicPlayerProvider.dart';
 import 'package:musifier/service/playList_service.dart';
@@ -76,19 +77,38 @@ class _PlaylistPageState extends State<PlaylistPage> {
                               itemCount: playlist.tracksList!.length,
                               itemBuilder: (context, index) {
                                 final track = playlist.tracksList![index];
-                                return ElevatedButton(onPressed: () async {
-                                  await musicPlayerProvider.setAudio(track.id);
-                                  musicPlayerProvider.play();
+                                return ElevatedButton(
+                                    onPressed: () async {
+                                      await musicPlayerProvider
+                                          .setAudio(track.id);
+                                      musicPlayerProvider.play();
 
-                                  Navigator.push(context,  MaterialPageRoute(builder: (context) => MusicPlayerPage()));
-                                }, child: ListTile(
-                                  leading: Image.network(track.image,
-                                      width: 50, height: 50, fit: BoxFit.cover),
-                                  title: Text(track.name),
-                                  subtitle: Text(track.artists
-                                      .map((artist) => artist.name)
-                                      .join(', ')),
-                                ));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MusicPlayerPage(
+                                                      songId: track.id,
+                                                      song: Song(
+                                                          id: track.id,
+                                                          name: track.name,
+                                                          image: track.image,
+                                                          artists: track
+                                                              .artists
+                                                              .map((artist) =>
+                                                                  artist.name)
+                                                              .join(', ')))));
+                                    },
+                                    child: ListTile(
+                                      leading: Image.network(track.image,
+                                          width: 50,
+                                          height: 50,
+                                          fit: BoxFit.cover),
+                                      title: Text(track.name),
+                                      subtitle: Text(track.artists
+                                          .map((artist) => artist.name)
+                                          .join(', ')),
+                                    ));
                               },
                             ),
                           )

@@ -7,7 +7,6 @@ import 'package:musifier/service/category_service.dart';
 import 'package:musifier/widgets/navBar.dart';
 import '../widgets/boxSong.dart';
 
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -16,7 +15,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final User? user = Auth().currentUser;
   final int _currentIndex = 0;
-
 
   final CategoryService _categoryService = CategoryService();
   late Future<List<Category>> _categoriesFuture;

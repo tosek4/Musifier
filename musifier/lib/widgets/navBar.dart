@@ -54,7 +54,10 @@ class NavigationWidget extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MusicPlayerPage()),
+                MaterialPageRoute(
+                    builder: (context) => MusicPlayerPage(
+                          songId: null,
+                        )),
               );
             },
           ),

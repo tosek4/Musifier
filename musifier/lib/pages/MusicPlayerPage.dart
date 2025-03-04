@@ -8,7 +8,7 @@ import '../models/PlayPauseButton.dart';
 import '../widgets/navBar.dart';
 
 
-//todo slika,da se menvit vremeto do kaj e i kolku e dolga pesnata, valda navigacijata dobro rabotat
+//todo slika, da se menvit vremeto do kaj e i kolku e dolga pesnata, valda navigacijata dobro rabotat
 
 
 class MusicPlayerPage extends StatefulWidget {
@@ -65,7 +65,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
               width: 250,
               decoration: BoxDecoration(
                 color: Colors.grey,
-                borderRadius: BorderRadius.circular(36), // Add your desired radius here
+                borderRadius: BorderRadius.circular(36),
               ),
               child: const Center(
                 child: Text(

@@ -4,14 +4,12 @@ import 'package:musifier/widgets/navBar.dart';
 import 'package:musifier/pages/homePage.dart';
 import 'package:musifier/pages/profilePage.dart';
 import '../models/PlayPauseButton.dart';
-<<<<<<< HEAD
 import '../widgets/navBar.dart';
 
 
 //todo slika, da se menvit vremeto do kaj e i kolku e dolga pesnata, valda navigacijata dobro rabotat
-=======
 import '../models/song.dart';
->>>>>>> 2a50556a0adfdb32bb256c959cf728d4af6ef96b
+
 
 //todo da se menvit vremeto do kaj e i kolku e dolga pesnata, valda navigacijata dobro rabotat
 
@@ -37,7 +35,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
         break;
       case 3:
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ProfilePage()));
+            context, MaterialPageRoute(builder: (context) => const  ProfilePage()));
         break;
     }
   }
@@ -67,39 +65,21 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                 },
               ),
             ),
-<<<<<<< HEAD
-            SizedBox(height: 45),
-
-
-            Container(
-              height: 250,
-              width: 250,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(36),
-              ),
-              child: const Center(
-                child: Text(
-                  "Album Cover",
-                  style: TextStyle(color: Colors.white),
-                ),
-=======
             SizedBox(
               height: 300,
               child: Image.network(
                 widget.song!.image,
-                fit: BoxFit.contain, // Ensures the image fits properly
->>>>>>> 2a50556a0adfdb32bb256c959cf728d4af6ef96b
+                fit: BoxFit.contain,
               ),
             ),
-            const SizedBox(height: 10),
-            Text(
-              "${widget.song!.name}",
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold),
-            ),
+        const SizedBox(height: 10),
+        Text(
+          "${widget.song!.name}",
+          style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold),
+        ),
             Text(
               "${widget.song!.artists}",
               style: const TextStyle(color: Colors.white54, fontSize: 18),
@@ -124,14 +104,14 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                 });
               },
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.shuffle, color: Colors.white54, size: 40),
-                SizedBox(width: 30),
-                Icon(Icons.skip_previous, color: Colors.white, size: 40),
-                SizedBox(width: 30),
+                const Icon(Icons.shuffle, color: Colors.white54, size: 40),
+                const SizedBox(width: 30),
+                const Icon(Icons.skip_previous, color: Colors.white, size: 40),
+                const SizedBox(width: 30),
                 PlayPauseButton(
                   size: 80.0,
                   onPressed: () {
@@ -139,10 +119,10 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                     // Add your playback logic here
                   },
                 ),
-                SizedBox(width: 30),
-                Icon(Icons.skip_next, color: Colors.white, size: 40),
-                SizedBox(width: 30),
-                Icon(Icons.repeat, color: Colors.white, size: 40),
+                const SizedBox(width: 30),
+                const Icon(Icons.skip_next, color: Colors.white, size: 40),
+                const SizedBox(width: 30),
+                const Icon(Icons.repeat, color: Colors.white, size: 40),
               ],
             ),
             Spacer(),

@@ -52,6 +52,7 @@ dependencies:
   just_audio_background: ^0.0.1-beta.15
   audio_service: ^0.18.12
   just_audio_windows: ^0.2.2
+  flutter_hooks: ^0.21.2
 
 dev_dependencies:
   flutter_test:

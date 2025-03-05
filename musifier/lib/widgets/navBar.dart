@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:musifier/pages/MusicPlayerPage.dart';
 import 'package:musifier/pages/homePage.dart';
 import 'package:musifier/pages/profilePage.dart';
+import 'package:musifier/pages/searchSong.dart';
 
 class NavigationWidget extends StatelessWidget {
   final int currentIndex;
@@ -51,6 +52,12 @@ class NavigationWidget extends StatelessWidget {
             index: 2,
             icon: Icons.search,
             isSelected: currentIndex == 2,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SongSearchPage()),
+              );
+            },
           ),
           _buildNavItem(
             context: context,

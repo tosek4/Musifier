@@ -5,9 +5,6 @@ import 'package:musifier/pages/homePage.dart';
 import 'package:musifier/pages/profilePage.dart';
 import '../models/PlayPauseButton.dart';
 import '../widgets/navBar.dart';
-
-
-//todo slika, da se menvit vremeto do kaj e i kolku e dolga pesnata, valda navigacijata dobro rabotat
 import '../models/song.dart';
 
 
@@ -72,14 +69,14 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                 fit: BoxFit.contain,
               ),
             ),
-        const SizedBox(height: 10),
-        Text(
-          "${widget.song!.name}",
-          style: const TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold),
-        ),
+            const SizedBox(height: 10),
+            Text(
+              "${widget.song!.name}",
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold),
+            ),
             Text(
               "${widget.song!.artists}",
               style: const TextStyle(color: Colors.white54, fontSize: 18),

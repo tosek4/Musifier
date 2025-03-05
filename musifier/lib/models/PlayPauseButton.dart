@@ -1,38 +1,25 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PlayPauseButton extends StatefulWidget {
+class PlayPauseButton extends StatelessWidget {
   final Function()? onPressed;
   final double size;
+  final bool isPlaying;
 
   const PlayPauseButton({
     Key? key,
-    this.onPressed,
+    required this.onPressed,
+    required this.isPlaying,
     this.size = 80.0,
   }) : super(key: key);
 
   @override
-  _PlayPauseButtonState createState() => _PlayPauseButtonState();
-}
-
-class _PlayPauseButtonState extends State<PlayPauseButton> {
-  bool isPlaying = false;
-
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          isPlaying = !isPlaying;
-        });
-        if (widget.onPressed != null) {
-          widget.onPressed!();
-        }
-      },
+      onTap: onPressed,
       child: Container(
-        width: widget.size,
-        height: widget.size,
-        decoration: BoxDecoration(
+        width: size,
+        height: size,
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
           gradient: LinearGradient(
             colors: [
@@ -45,9 +32,9 @@ class _PlayPauseButtonState extends State<PlayPauseButton> {
         ),
         child: Center(
           child: Icon(
-            isPlaying ? Icons.play_arrow : Icons.pause,
+            isPlaying ? Icons.pause : Icons.play_arrow,
             color: Colors.white,
-            size: widget.size * 0.5,
+            size: size * 0.5,
           ),
         ),
       ),

@@ -5,7 +5,7 @@ import 'package:musifier/pages/homePage.dart';
 import 'package:musifier/pages/profilePage.dart';
 import '../models/PlayPauseButton.dart';
 import '../models/song.dart';
-import 'dart:async';
+import 'package:provider/provider.dart';
 
 String formatDuration(int seconds) {
   final minutes = seconds ~/ 60;
@@ -26,46 +26,32 @@ class MusicPlayerPage extends StatefulWidget {
 class _MusicPlayerPageState extends State<MusicPlayerPage> {
   double _currentPosition = 0;
   late int _durationInSeconds;
-  Timer? _timer;
   bool _isPlaying = false;
 
   @override
   void initState() {
     super.initState();
     _durationInSeconds = (widget.song?.duration ?? 0) ~/ 1000;
-    _currentPosition = 0;
-  }
 
+    final musicPlayerProvider = Provider.of<MusicPlayerProvider>(context, listen: false);
+    musicPlayerProvider.setAudio(widget.songId!);
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
+    musicPlayerProvider.player.positionStream.listen((position) {
+      setState(() {
+        _currentPosition = position.inSeconds.toDouble();
+      });
+    });
 
-  void _startTimer() {
-    _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_currentPosition < _durationInSeconds) {
-        setState(() {
-          _currentPosition += 1;
-        });
-      } else {
-        _timer?.cancel();
-        _isPlaying = false;
-      }
+    musicPlayerProvider.player.playerStateStream.listen((state) {
+      setState(() {
+        _isPlaying = state.playing;
+      });
     });
   }
 
   void _togglePlayPause() {
-    setState(() {
-      if (_isPlaying) {
-        _timer?.cancel();
-      } else {
-        _startTimer();
-      }
-      _isPlaying = !_isPlaying;
-    });
+    final musicPlayerProvider = Provider.of<MusicPlayerProvider>(context, listen: false);
+    musicPlayerProvider.togglePlayPause();
   }
 
   void _onNavItemTapped(int index) {
@@ -83,7 +69,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    final musicPlayerProvider = MusicPlayerProvider();
+    final musicPlayerProvider = Provider.of<MusicPlayerProvider>(context);
     final formattedCurrentTime = formatDuration(_currentPosition.toInt());
     final formattedDuration = formatDuration(_durationInSeconds);
 
@@ -98,11 +84,11 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Align(
               alignment: Alignment.topLeft,
               child: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -132,8 +118,8 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(formattedCurrentTime, style: TextStyle(color: Colors.white54)),
-                  Text(formattedDuration, style: TextStyle(color: Colors.white54)),
+                  Text(formattedCurrentTime, style: const TextStyle(color: Colors.white54)),
+                  Text(formattedDuration, style: const TextStyle(color: Colors.white54)),
                 ],
               ),
             ),
@@ -147,6 +133,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                 setState(() {
                   _currentPosition = value;
                 });
+                musicPlayerProvider.player.seek(Duration(seconds: value.toInt()));
               },
             ),
             const SizedBox(height: 10),
@@ -159,10 +146,8 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                 const SizedBox(width: 30),
                 PlayPauseButton(
                   size: 80.0,
-                  onPressed: () {
-                    _togglePlayPause();
-                    musicPlayerProvider.togglePlayPause();
-                  },
+                  onPressed: _togglePlayPause,
+                  isPlaying: musicPlayerProvider.isPlaying,
                 ),
                 const SizedBox(width: 30),
                 const Icon(Icons.skip_next, color: Colors.white, size: 40),
@@ -170,7 +155,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                 const Icon(Icons.repeat, color: Colors.white, size: 40),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             GestureDetector(
               onTap: () => _onNavItemTapped(0),
               child: NavigationWidget(currentIndex: 1),

@@ -5,6 +5,7 @@ import 'package:musifier/models/song.dart';
 import 'package:musifier/pages/MusicPlayerPage.dart';
 import 'package:musifier/providers/musicPlayerProvider.dart';
 import 'package:musifier/service/playList_service.dart';
+import 'package:provider/provider.dart';
 
 class PlaylistPage extends StatefulWidget {
   final int playlistId;
@@ -26,8 +27,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
 
   @override
   Widget build(BuildContext context) {
-    final musicPlayerProvider = MusicPlayerProvider();
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Playlist'),
@@ -63,8 +62,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     SizedBox(height: 16),
                     Text(
                       playlist.name,
-                      style:
-                      TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                     SizedBox(height: 8),
                     Text(
@@ -88,8 +86,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
                                 padding: EdgeInsets.zero,
                               ),
                               onPressed: () async {
+                                final musicPlayerProvider =
+                                Provider.of<MusicPlayerProvider>(context, listen: false);
                                 await musicPlayerProvider.setAudio(track.id);
-                                musicPlayerProvider.play();
+                                musicPlayerProvider.togglePlayPause();
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -121,7 +121,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
                       ),
                     )
                         : const Center(child: Text('No tracks available', style: TextStyle(color: Colors.white))),
-
                   ],
                 ),
               ),

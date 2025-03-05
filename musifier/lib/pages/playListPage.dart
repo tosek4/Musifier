@@ -31,8 +31,9 @@ class _PlaylistPageState extends State<PlaylistPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Playlist'),
-        backgroundColor: Color(0xFF1B1B37),
+        backgroundColor: const Color(0xFF1B1B37),
       ),
+      backgroundColor: const Color(0xFF1B1B37),
       body: SafeArea(
         child: FutureBuilder<Playlist>(
           future: _playlistFuture,
@@ -52,7 +53,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
             final playlist = snapshot.data!;
 
             return SingleChildScrollView(
-              child: Padding(
+              child: Container(
+                color: const Color(0xFF1B1B37),
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,57 +64,62 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     Text(
                       playlist.name,
                       style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                     SizedBox(height: 8),
                     Text(
                       playlist.description,
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                     SizedBox(height: 16),
                     playlist.tracksList!.isNotEmpty
                         ? SizedBox(
-                            height: 400,
-                            child: ListView.builder(
-                              itemCount: playlist.tracksList!.length,
-                              itemBuilder: (context, index) {
-                                final track = playlist.tracksList![index];
-                                return ElevatedButton(
-                                    onPressed: () async {
-                                      await musicPlayerProvider
-                                          .setAudio(track.id);
-                                      musicPlayerProvider.play();
+                      height: 400,
+                      child: ListView.builder(
+                        itemCount: playlist.tracksList!.length,
+                        itemBuilder: (context, index) {
+                          final track = playlist.tracksList![index];
+                          return Container(
+                            color: const Color(0xFF1B1B37), // Match background color
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent, // Remove default button color
+                                shadowColor: Colors.transparent, // Remove button shadow
+                                padding: EdgeInsets.zero, // Remove button padding
+                              ),
+                              onPressed: () async {
+                                await musicPlayerProvider.setAudio(track.id);
+                                musicPlayerProvider.play();
 
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MusicPlayerPage(
-                                                      songId: track.id,
-                                                      song: Song(
-                                                          id: track.id,
-                                                          name: track.name,
-                                                          image: track.image,
-                                                          artists: track
-                                                              .artists
-                                                              .map((artist) =>
-                                                                  artist.name)
-                                                              .join(', ')))));
-                                    },
-                                    child: ListTile(
-                                      leading: Image.network(track.image,
-                                          width: 50,
-                                          height: 50,
-                                          fit: BoxFit.cover),
-                                      title: Text(track.name),
-                                      subtitle: Text(track.artists
-                                          .map((artist) => artist.name)
-                                          .join(', ')),
-                                    ));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MusicPlayerPage(
+                                            songId: track.id,
+                                            song: Song(
+                                                id: track.id,
+                                                name: track.name,
+                                                image: track.image,
+                                                artists: track.artists
+                                                    .map((artist) => artist.name)
+                                                    .join(', ')))));
                               },
+                              child: ListTile(
+                                tileColor: const Color(0xFF1B1B37), // Ensures tile background matches
+                                leading: Image.network(track.image,
+                                    width: 50, height: 50, fit: BoxFit.cover),
+                                title: Text(track.name, style: TextStyle(color: Colors.white)),
+                                subtitle: Text(track.artists
+                                    .map((artist) => artist.name)
+                                    .join(', '), style: TextStyle(color: Colors.white70)),
+                              ),
                             ),
-                          )
-                        : Center(child: Text('No tracks available')),
+                          );
+                        },
+                      ),
+                    )
+                        : Center(child: Text('No tracks available', style: TextStyle(color: Colors.white))),
+
                   ],
                 ),
               ),

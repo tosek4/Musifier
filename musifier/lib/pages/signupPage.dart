@@ -29,23 +29,34 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Future<void> createUserWithEmailAndPassword(BuildContext context) async {
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      setState(() {
+        errorMessage = "Email and password are required.";
+      });
+      return;
+    }
+
     try {
       await Auth().createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
+
       if (context.mounted) {
+        print("Signup successful! Navigating to HomePage...");
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
         );
       }
     } on FirebaseAuthException catch (e) {
+      print("Firebase Auth Error: ${e.message}");
       setState(() {
         errorMessage = e.message;
       });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

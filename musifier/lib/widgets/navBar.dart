@@ -48,21 +48,6 @@ class NavigationWidget extends StatelessWidget {
           ),
           _buildNavItem(
             context: context,
-            index: 1,
-            icon: Icons.music_note_outlined,
-            isSelected: currentIndex == 1,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MusicPlayerPage(
-                          songId: null,
-                        )),
-              );
-            },
-          ),
-          _buildNavItem(
-            context: context,
             index: 2,
             icon: Icons.search,
             isSelected: currentIndex == 2,

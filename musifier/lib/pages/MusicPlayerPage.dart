@@ -24,6 +24,7 @@ class MusicPlayerPage extends StatefulWidget {
 }
 
 class _MusicPlayerPageState extends State<MusicPlayerPage> {
+  final int _currentIndex = 1;
   double _currentPosition = 0;
   late int _durationInSeconds;
   bool _isPlaying = false;
@@ -81,86 +82,89 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
       },
       child: Scaffold(
         backgroundColor: const Color(0xFF1B1B37),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20),
-            Align(
-              alignment: Alignment.topLeft,
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-            SizedBox(
-              height: 300,
-              child: Image.network(
-                widget.song!.image,
-                fit: BoxFit.contain,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              widget.song!.name,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold),
-            ),
-            Text(
-              widget.song!.artists,
-              style: const TextStyle(color: Colors.white54, fontSize: 18),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(formattedCurrentTime, style: const TextStyle(color: Colors.white54)),
-                  Text(formattedDuration, style: const TextStyle(color: Colors.white54)),
-                ],
-              ),
-            ),
-            Slider(
-              min: 0,
-              max: _durationInSeconds.toDouble(),
-              value: _currentPosition.toDouble(),
-              activeColor: Colors.white,
-              inactiveColor: Colors.white30,
-              onChanged: (value) {
-                setState(() {
-                  _currentPosition = value;
-                });
-                musicPlayerProvider.player.seek(Duration(seconds: value.toInt()));
-              },
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.shuffle, color: Colors.white54, size: 40),
-                const SizedBox(width: 30),
-                const Icon(Icons.skip_previous, color: Colors.white, size: 40),
-                const SizedBox(width: 30),
-                PlayPauseButton(
-                  size: 80.0,
-                  onPressed: _togglePlayPause,
-                  isPlaying: musicPlayerProvider.isPlaying,
+                const SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
-                const SizedBox(width: 30),
-                const Icon(Icons.skip_next, color: Colors.white, size: 40),
-                const SizedBox(width: 30),
-                const Icon(Icons.repeat, color: Colors.white, size: 40),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * (MediaQuery.of(context).size.height < 600 ? 0.3 : 0.5),
+                  child: Image.network(
+                    widget.song!.image,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  widget.song!.name,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  widget.song!.artists,
+                  style: const TextStyle(color: Colors.white54, fontSize: 18),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(formattedCurrentTime, style: const TextStyle(color: Colors.white54)),
+                      Text(formattedDuration, style: const TextStyle(color: Colors.white54)),
+                    ],
+                  ),
+                ),
+                Slider(
+                  min: 0,
+                  max: _durationInSeconds.toDouble(),
+                  value: _currentPosition.toDouble(),
+                  activeColor: Colors.white,
+                  inactiveColor: Colors.white30,
+                  onChanged: (value) {
+                    setState(() {
+                      _currentPosition = value;
+                    });
+                    musicPlayerProvider.player.seek(Duration(seconds: value.toInt()));
+                  },
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.shuffle, color: Colors.white54, size: 40),
+                    const SizedBox(width: 30),
+                    const Icon(Icons.skip_previous, color: Colors.white, size: 40),
+                    const SizedBox(width: 30),
+                    PlayPauseButton(
+                      size: 80.0,
+                      onPressed: _togglePlayPause,
+                      isPlaying: musicPlayerProvider.isPlaying,
+                    ),
+                    const SizedBox(width: 30),
+                    const Icon(Icons.skip_next, color: Colors.white, size: 40),
+                    const SizedBox(width: 30),
+                    const Icon(Icons.repeat, color: Colors.white, size: 40),
+                  ],
+                ),
               ],
             ),
-            const Spacer(),
-            GestureDetector(
-              onTap: () => _onNavItemTapped(0),
-              child: NavigationWidget(currentIndex: 1),
-            ),
-          ],
+          ),
+        ),
+        bottomNavigationBar: NavigationWidget(
+          currentIndex: _currentIndex,
         ),
       ),
     );

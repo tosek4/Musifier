@@ -80,32 +80,34 @@ class _PlaylistPageState extends State<PlaylistPage> {
                         itemBuilder: (context, index) {
                           final track = playlist.tracksList![index];
                           return Container(
-                            color: const Color(0xFF1B1B37), // Match background color
+                            color: const Color(0xFF1B1B37),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent, // Remove default button color
-                                shadowColor: Colors.transparent, // Remove button shadow
-                                padding: EdgeInsets.zero, // Remove button padding
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                padding: EdgeInsets.zero,
                               ),
                               onPressed: () async {
                                 await musicPlayerProvider.setAudio(track.id);
                                 musicPlayerProvider.play();
-
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MusicPlayerPage(
-                                            songId: track.id,
-                                            song: Song(
-                                                id: track.id,
-                                                name: track.name,
-                                                image: track.image,
-                                                artists: track.artists
-                                                    .map((artist) => artist.name)
-                                                    .join(', ')))));
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MusicPlayerPage(
+                                      songId: track.id,
+                                      song: Song(
+                                        id: track.id,
+                                        name: track.name,
+                                        image: track.image,
+                                        artists: track.artists.map((artist) => artist.name).join(', '),
+                                        duration: track.duration,
+                                      ),
+                                    ),
+                                  ),
+                                );
                               },
                               child: ListTile(
-                                tileColor: const Color(0xFF1B1B37), // Ensures tile background matches
+                                tileColor: const Color(0xFF1B1B37),
                                 leading: Image.network(track.image,
                                     width: 50, height: 50, fit: BoxFit.cover),
                                 title: Text(track.name, style: TextStyle(color: Colors.white)),
@@ -118,7 +120,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                         },
                       ),
                     )
-                        : Center(child: Text('No tracks available', style: TextStyle(color: Colors.white))),
+                        : const Center(child: Text('No tracks available', style: TextStyle(color: Colors.white))),
 
                   ],
                 ),

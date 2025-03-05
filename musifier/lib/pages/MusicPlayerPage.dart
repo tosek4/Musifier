@@ -4,35 +4,79 @@ import 'package:musifier/widgets/navBar.dart';
 import 'package:musifier/pages/homePage.dart';
 import 'package:musifier/pages/profilePage.dart';
 import '../models/PlayPauseButton.dart';
-import '../widgets/navBar.dart';
 import '../models/song.dart';
+import 'dart:async';
 
-
-//todo da se menvit vremeto do kaj e i kolku e dolga pesnata, valda navigacijata dobro rabotat
+String formatDuration(int seconds) {
+  final minutes = seconds ~/ 60;
+  final remainingSeconds = seconds % 60;
+  return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
+}
 
 class MusicPlayerPage extends StatefulWidget {
   final Song? song;
   final int? songId;
 
   MusicPlayerPage({this.song, required this.songId});
+
   @override
   _MusicPlayerPageState createState() => _MusicPlayerPageState();
 }
 
 class _MusicPlayerPageState extends State<MusicPlayerPage> {
-  double _currentPosition = 50;
-  final String currentTime = "1:25";
-  final String duration = "3:15";
+  double _currentPosition = 0;
+  late int _durationInSeconds;
+  Timer? _timer;
+  bool _isPlaying = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _durationInSeconds = (widget.song?.duration ?? 0) ~/ 1000;
+    _currentPosition = 0;
+  }
+
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_currentPosition < _durationInSeconds) {
+        setState(() {
+          _currentPosition += 1;
+        });
+      } else {
+        _timer?.cancel();
+        _isPlaying = false;
+      }
+    });
+  }
+
+  void _togglePlayPause() {
+    setState(() {
+      if (_isPlaying) {
+        _timer?.cancel();
+      } else {
+        _startTimer();
+      }
+      _isPlaying = !_isPlaying;
+    });
+  }
 
   void _onNavItemTapped(int index) {
     switch (index) {
       case 0:
-        Navigator.push(
+        Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => HomePage()));
         break;
       case 3:
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const  ProfilePage()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const ProfilePage()));
         break;
     }
   }
@@ -40,6 +84,8 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
   @override
   Widget build(BuildContext context) {
     final musicPlayerProvider = MusicPlayerProvider();
+    final formattedCurrentTime = formatDuration(_currentPosition.toInt());
+    final formattedDuration = formatDuration(_durationInSeconds);
 
     return GestureDetector(
       onVerticalDragUpdate: (details) {
@@ -71,14 +117,14 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
             ),
             const SizedBox(height: 10),
             Text(
-              "${widget.song!.name}",
+              widget.song!.name,
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
             ),
             Text(
-              "${widget.song!.artists}",
+              widget.song!.artists,
               style: const TextStyle(color: Colors.white54, fontSize: 18),
             ),
             Padding(
@@ -86,15 +132,17 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(currentTime, style: TextStyle(color: Colors.white54)),
-                  Text(duration, style: TextStyle(color: Colors.white54)),
+                  Text(formattedCurrentTime, style: TextStyle(color: Colors.white54)),
+                  Text(formattedDuration, style: TextStyle(color: Colors.white54)),
                 ],
               ),
             ),
             Slider(
               min: 0,
-              max: 100,
-              value: _currentPosition,
+              max: _durationInSeconds.toDouble(),
+              value: _currentPosition.toDouble(),
+              activeColor: Colors.white,
+              inactiveColor: Colors.white30,
               onChanged: (value) {
                 setState(() {
                   _currentPosition = value;
@@ -112,8 +160,8 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                 PlayPauseButton(
                   size: 80.0,
                   onPressed: () {
+                    _togglePlayPause();
                     musicPlayerProvider.togglePlayPause();
-                    // Add your playback logic here
                   },
                 ),
                 const SizedBox(width: 30),

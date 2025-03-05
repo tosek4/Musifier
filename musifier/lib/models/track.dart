@@ -6,6 +6,7 @@ class Track {
   final String image;
   final List<Artist> artists;
   final int id;
+  final int duration;
 
   Track({
     required this.name,
@@ -13,13 +14,13 @@ class Track {
     required this.image,
     required this.artists,
     required this.id,
+    required this.duration,
   });
 
   factory Track.fromJson(Map<String, dynamic> json) {
     var artistsFromJson = json['artists'] as List;
-
     List<Artist> artistsList =
-        artistsFromJson.map((i) => Artist.fromJson(i)).toList();
+    artistsFromJson.map((i) => Artist.fromJson(i)).toList();
 
     return Track(
       name: json['name'],
@@ -27,11 +28,12 @@ class Track {
       image: json['image'],
       artists: artistsList,
       id: json['id'],
+      duration: json['duration'] ?? 0,
     );
   }
 
   @override
   String toString() {
-    return 'Track(name: $name, externalId: $externalId, artists: ${artists.map((a) => a.name).join(", ")}, id: $id)';
+    return 'Track(name: $name, externalId: $externalId, artists: ${artists.map((a) => a.name).join(", ")}, id: $id, duration: $duration)';
   }
 }

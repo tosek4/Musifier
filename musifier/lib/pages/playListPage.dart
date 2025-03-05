@@ -58,7 +58,13 @@ class _PlaylistPageState extends State<PlaylistPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.network(playlist.image),
+                    Center(
+                      child: Image.network(
+                        playlist.image,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     SizedBox(height: 16),
                     Text(
                       playlist.name,

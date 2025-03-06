@@ -72,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
       if (doc.exists && doc.data() != null) {
         setState(() {
-          _imageUrl = doc['profileImageBase64']; 
+          _imageUrl = doc['profileImageBase64'];
         });
       }
     }
@@ -105,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
             "${placemarks.first.street}, ${placemarks.first.locality}, ${placemarks.first.country}";
         setState(() {
           _locationName = address;
-          _addressController.text = address; 
+          _addressController.text = address;
         });
       }
     } catch (e) {
@@ -148,7 +148,6 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() {
         _imageUrl = base64String;
       });
-
     } catch (e) {
       print("Error uploading Base64 image: $e");
     }
@@ -158,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.image,
-        withData: true, 
+        withData: true,
       );
 
       if (result != null) {
@@ -174,15 +173,24 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+
   void _handleSave() async {
     if (user != null) {
       try {
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user!.uid)
-            .update({
-          'address': _addressController.text,
-        });
+        Map<String, dynamic> userData = {
+          'name': _nameController.text, 
+          'address': _addressController.text, 
+        };
+
+        if (_imageUrl != null) {
+          userData['profileImageBase64'] = _imageUrl!;
+        }
+
+        await FirebaseFirestore.instance.collection('users').doc(user!.uid).set(
+            userData,
+            SetOptions(merge: true)); 
+
+        await user!.updateProfile(displayName: _nameController.text);
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Profile updated successfully!")),
@@ -292,7 +300,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   hintText: 'Enter your email',
                   labelText: 'Email address',
                   icon: Icons.email_outlined,
-                  readOnly: true, 
+                  readOnly: true,
                   trailing: const Icon(
                     Icons.edit,
                     color: Colors.white54,

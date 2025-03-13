@@ -89,6 +89,7 @@
 import 'package:flutter/material.dart';
 import 'package:musifier/models/song.dart';
 import 'package:musifier/pages/MusicPlayerPage.dart';
+import 'package:musifier/widgets/navBar.dart';
 
 class SongSearchPage extends StatefulWidget {
   @override
@@ -96,6 +97,7 @@ class SongSearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SongSearchPage> {
+  final int _currentIndex = 2;
   List<Map<String, dynamic>> mockData = [
     {
       "id": 131706,
@@ -189,7 +191,7 @@ class _SearchPageState extends State<SongSearchPage> {
   @override
   void initState() {
     super.initState();
-    filteredData = List.from(mockData); // Initially show all data
+    filteredData = List.from(mockData);
   }
 
   void filterSearch(String query) {
@@ -269,6 +271,9 @@ class _SearchPageState extends State<SongSearchPage> {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: NavigationWidget(
+        currentIndex: _currentIndex,
       ),
     );
   }

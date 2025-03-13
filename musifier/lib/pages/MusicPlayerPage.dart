@@ -105,7 +105,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                     fit: BoxFit.contain,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(),
                 Text(
                   widget.song!.name,
                   style: const TextStyle(
